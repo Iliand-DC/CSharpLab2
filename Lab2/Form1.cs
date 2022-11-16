@@ -114,43 +114,12 @@ namespace Lab2
         {
             if (textBox1.TextLength != 0)
             {
-                int count;
-                byte[] byteArray;
-                char[] charArray;
-                UnicodeEncoding uniEncoding = new UnicodeEncoding();
-                byte[] secondString =
-                uniEncoding.GetBytes(Path.GetInvalidPathChars());
-                using (MemoryStream memStream =
-                new MemoryStream(textBox1.TextLength *
-                UnicodeEncoding.CharSize))
+                byte[] byteArray = Encoding.Unicode.GetBytes(textBox1.Text);
+                textBox2.Clear();
+                for (int i = 0; i < byteArray.Length; i++)
                 {
-                    memStream.Write(uniEncoding.GetBytes(textBox1.Text),
-                    0, textBox1.TextLength * UnicodeEncoding.CharSize);
-                    textBox2.Clear();
-                    memStream.Seek(0, SeekOrigin.Begin);
-                    StreamReader memrdr = new StreamReader(memStream,
-                    Encoding.Unicode);
-                    int c1 = -1, c2 = memrdr.Read();
-                    int i = 0;
-                    while (c2 != -1)
-                    {
-                        int countWord = 0;
-                        // CR LF: возврат каретки + перевод строки,
-                        // символы Юникода 000D + 000A
-                        while (c2 != '\r' && c2 != -1)
-                        {
-                            c1 = c2;
-                            c2 = memrdr.Read();
-                            textBox2.AppendText(((char)c1).ToString());
-                        }
-                        if (c2 == '\r')
-                        {
-                            c2 = memrdr.Read();
-                            c1 = c2;
-                            c2 = memrdr.Read();
-                        }
-                        textBox2.AppendText("\n");
-                    }
+                    textBox2.Text += byteArray[i];
+                    textBox2.Text += ' ';
                 }
             }
         }
