@@ -56,7 +56,7 @@
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(756, 27);
+            this.menuStrip1.Size = new System.Drawing.Size(756, 28);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -68,35 +68,35 @@
             this.saveAsToolStripMenuItem,
             this.saveResultAsToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(43, 23);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(43, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(206, 24);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(174, 24);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(206, 24);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(174, 24);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(206, 24);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(174, 24);
             this.saveAsToolStripMenuItem.Text = "Save As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // saveResultAsToolStripMenuItem
             // 
             this.saveResultAsToolStripMenuItem.Name = "saveResultAsToolStripMenuItem";
-            this.saveResultAsToolStripMenuItem.Size = new System.Drawing.Size(206, 24);
+            this.saveResultAsToolStripMenuItem.Size = new System.Drawing.Size(174, 24);
             this.saveResultAsToolStripMenuItem.Text = "Save Result As";
             this.saveResultAsToolStripMenuItem.Click += new System.EventHandler(this.saveResultAsToolStripMenuItem_Click);
             // 
@@ -107,7 +107,7 @@
             this.option2ToolStripMenuItem,
             this.option3ToolStripMenuItem});
             this.taskToolStripMenuItem.Name = "taskToolStripMenuItem";
-            this.taskToolStripMenuItem.Size = new System.Drawing.Size(48, 23);
+            this.taskToolStripMenuItem.Size = new System.Drawing.Size(48, 24);
             this.taskToolStripMenuItem.Text = "Task";
             // 
             // option1ToolStripMenuItem
@@ -134,12 +134,13 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(61, 23);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(61, 24);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // textBox2
             // 
+            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.74545F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox2.Location = new System.Drawing.Point(390, 40);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
@@ -148,6 +149,7 @@
             // 
             // textBox1
             // 
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.74545F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox1.Location = new System.Drawing.Point(12, 40);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
