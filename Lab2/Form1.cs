@@ -29,11 +29,26 @@ namespace Lab2
 
             return c;
         }
+        private byte[] to_lowercase(byte[] bytes)
+        {
+            for (int i = 0; i < bytes.Length; i++)
+                if (bytes[i] >= 65 && bytes[i] <= 90) 
+                {
+                    bytes[i] = (byte)(bytes[i] + 32);
+                }
+            return bytes;
+        }
         private bool IsPalindrom(string s)
         {
             for (int i = 0; i < s.Length / 2; i++)
-
                 if (s[i] != s[s.Length - i - 1])
+                    return false;
+            return true;
+        }
+        private bool IsPalindrom(byte[] bytes)
+        {
+            for (int i = 0; i < bytes.Length / 2; i++)
+                if (bytes[i] != bytes[bytes.Length - i - 1])
                     return false;
             return true;
         }
@@ -52,7 +67,7 @@ namespace Lab2
         }
         private void option1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string s1, s2 = "";
+            string s1;
             textBox2.Clear();
             for(int i=0;i<textBox1.Lines.Count();i++)
             {
@@ -60,24 +75,21 @@ namespace Lab2
                 s1 = textBox1.Lines[i];
                 string[] s_mas = s1.Split(' ');
                 foreach (string str in s_mas)
-                    if (IsPalindrom(str.ToLower()))
+                    if (IsPalindrom(str.ToLower())&&str!="")
                     {
                         polinomCount++;
-                        s2 += String.Concat(str, ' ');
                     }
                 if (polinomCount > 1)
                 {
                     if (textBox2.Text.Length > 0)
                         textBox2.AppendText(Environment.NewLine);
-                    textBox2.AppendText(s2);
+                    textBox2.AppendText(s1);
                 }
-                s2 = "";
-                polinomCount = 0;
             }
         }
         private void option2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string s1, s2 = "", res = "";
+            string s1, res = "";
             textBox2.Clear();
             for(int i=0;i<textBox1.Lines.Count();i++)
             {
@@ -92,10 +104,9 @@ namespace Lab2
                     }
                     else
                     {
-                        if (IsPalindrom(to_lowercase(res)))
+                        if (IsPalindrom(to_lowercase(res))&&res!="")
                         {
                             polinomCount++;
-                            s2 += res + ' ';
                         }
                         res = "";
                     }
@@ -105,21 +116,120 @@ namespace Lab2
                 {
                     if (textBox2.Text.Length > 0)
                         textBox2.AppendText(Environment.NewLine);
-                    textBox2.AppendText(s2);
+                    textBox2.AppendText(s1);
                 }
-                s2 = "";
             }
         }
         private void option3ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (textBox1.TextLength != 0)
             {
-                byte[] byteArray = Encoding.Unicode.GetBytes(textBox1.Text);
-                textBox2.Clear();
-                for (int i = 0; i < byteArray.Length; i++)
+                UnicodeEncoding uniEncoding = new UnicodeEncoding();
+                byte[] secondString =
+                uniEncoding.GetBytes(Path.GetInvalidPathChars());
+                using (MemoryStream memStream =
+                new MemoryStream(textBox1.TextLength *
+                UnicodeEncoding.CharSize))
                 {
-                    textBox2.Text += byteArray[i];
-                    textBox2.Text += ' ';
+                    memStream.Write(uniEncoding.GetBytes(textBox1.Text),
+                    0, textBox1.TextLength * UnicodeEncoding.CharSize);
+                    textBox2.Clear();
+                    byte[] byteArray = new byte[textBox1.TextLength * UnicodeEncoding.CharSize];
+                    memStream.Seek(0, SeekOrigin.Begin);
+                    StreamReader memrdr = new StreamReader(memStream,
+                    Encoding.Unicode);
+                    int c1 = -1, c2 = memrdr.Read();
+                    int i = 0;
+                    while (c2 != -1)
+                    {
+                        int countWord = 0;
+                        // CR LF: возврат каретки + перевод строки,
+                        // символы Юникода 000D + 000A
+                        while (c2 != '\r' && c2 != -1)
+                        {
+                            c1 = c2;
+                            c2 = memrdr.Read();
+                            byteArray[i] = (byte)c1;
+                            textBox2.AppendText(byteArray[i].ToString());
+                            i++;
+                        }
+                        if (c2 == '\r')
+                        {
+                            c2 = memrdr.Read();
+                            c1 = c2;
+                            c2 = memrdr.Read();
+                        }
+                        textBox2.AppendText("\n");
+                    }
+                    textBox2.Clear();
+                    //char[] charArray = new char[byteArray.Length];
+                    string charArray = "";
+                    for (i = 0; i < byteArray.Length; i++)
+                    {
+                        if (byteArray[i] != '\0')
+                            charArray += ((char)byteArray[i]).ToString();
+                        //charArray[i] = (char)byteArray[i];
+                    }
+                    charArray += ' ';
+                    int j = 0;
+                    int palindromCount = 0;
+                    string tempString = "", result = "";
+                    while (j < charArray.Length)
+                    {
+                        if (charArray[j] != ' ')
+                        {
+                            tempString += charArray[j];
+                        }
+                        else
+                        {
+                            if (IsPalindrom(to_lowercase(tempString)))
+                            {
+                                palindromCount++;
+                                result += tempString + ' ';
+                            }
+                            tempString = "";
+                        }
+                        j++;
+                    }
+                    if (palindromCount > 1)
+                    {
+                        if (textBox2.Text.Length > 0)
+                            textBox2.AppendText(Environment.NewLine);
+                        textBox2.AppendText(result);
+                    }
+                    result = "";
+
+                    ////byte[] byteArray = Encoding.Unicode.GetBytes(textBox1.Text);
+                    //int count = 0;
+                    //int countPolindrom = 0;
+                    //int start = 0;
+                    //textBox2.Text += ' ';
+                    //byte[] temp = new byte[byteArray.Length];
+                    //for (i = 0; i < byteArray.Length; i++)
+                    //{
+                    //    if (byteArray[i] != 32)
+                    //    {
+                    //        count++;
+                    //        temp[i] = byteArray[i];
+                    //    }
+                    //    else
+                    //    {
+                    //        temp[i] = 0;
+                    //        //byte[] temp = new byte[count];
+                    //        //for (int j = start; j < i; j++) temp[j] = byteArray[j];
+                    //        //if(IsPalindrom(to_lowercase(temp)))
+                    //        //{
+                    //        //    countPolindrom++;
+                    //        //    for (int j = start; j < i; j++) result[j] = byteArray[j];
+                    //        //}
+                    //        //start = i;
+                    //    }
+                    //}
+                    //if(IsPalindrom(to_lowercase(temp)))
+                    //textBox2.Clear();
+                    //for (i = 0; i < result.Length; i++) textBox2.AppendText(((char)result[i]).ToString());
+                    ////textBox2.Text += '\n';
+                    ////textBox2.Text += count;
                 }
             }
         }
@@ -131,7 +241,9 @@ namespace Lab2
                 StreamReader f_In = new StreamReader(openFileDialog1.FileName);
                 fileName = openFileDialog1.FileName;
                 textBox1.Text = f_In.ReadToEnd();
+                saveFileName = openFileDialog1.FileName;
                 textBox2.Clear();
+                f_In.Close();
             }
         }
 
@@ -163,28 +275,39 @@ namespace Lab2
             }
         }
 
+        private void save(string saveFileName, TextBox tb)
+        {
+            StreamWriter sw = new StreamWriter(saveFileName);
+            sw.WriteLine(tb.Text);
+            sw.Close();
+        }
+        private void SaveFromTB1(object sender, EventArgs e)
+        {
+            if (saveFileName != "")
+            {
+                save(saveFileName, textBox1);
+            }
+            else if (saveFileDialog1.FileName != "")
+            {
+                save(saveFileDialog1.FileName, textBox1);
+            }
+            else
+                saveAsToolStripMenuItem_Click(sender, e);
+        }
+        private void SaveFromTB2(object sender, EventArgs e)
+        {
+            if (saveFileDialog2.FileName != "")
+            {
+                save(saveFileDialog2.FileName, textBox2);
+            }
+            else
+                saveResultAsToolStripMenuItem_Click(sender, e);
+        }
+
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                StreamWriter streamWriter = new StreamWriter(saveFileDialog1.FileName);
-                streamWriter.WriteLine(textBox1.Text);
-                streamWriter.Close();
-            }
-            catch(System.ArgumentException)
-            {
-                saveAsToolStripMenuItem_Click(sender, e);
-            }
-            try
-            {
-                StreamWriter streamWriter = new StreamWriter(saveFileDialog2.FileName);
-                streamWriter.WriteLine(textBox2.Text);
-                streamWriter.Close();
-            }
-            catch(System.ArgumentException)
-            {
-                saveResultAsToolStripMenuItem_Click(sender, e);
-            }
+            SaveFromTB1(sender, e);
+            SaveFromTB2(sender, e);
         }
     }
 }
