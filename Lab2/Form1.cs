@@ -142,7 +142,6 @@ namespace Lab2
                     int i = 0;
                     while (c2 != -1)
                     {
-                        int countWord = 0;
                         // CR LF: возврат каретки + перевод строки,
                         // символы Юникода 000D + 000A
                         while (c2 != '\r' && c2 != -1)
@@ -157,6 +156,7 @@ namespace Lab2
                         {
                             c2 = memrdr.Read();
                             c1 = c2;
+                            byteArray[i] = (byte)c1;
                             c2 = memrdr.Read();
                         }
                         textBox2.AppendText("\n");
@@ -176,9 +176,13 @@ namespace Lab2
                     string tempString = "", result = "";
                     while (j < charArray.Length)
                     {
-                        if (charArray[j] != ' ')
+                        if (charArray[j] != ' ' && charArray[j] != '\n')
                         {
                             tempString += charArray[j];
+                        }
+                        else if (charArray[j] == '\n')
+                        {
+                            result += '\n';
                         }
                         else
                         {
@@ -197,7 +201,6 @@ namespace Lab2
                             textBox2.AppendText(Environment.NewLine);
                         textBox2.AppendText(result);
                     }
-                    result = "";
 
                     ////byte[] byteArray = Encoding.Unicode.GetBytes(textBox1.Text);
                     //int count = 0;
